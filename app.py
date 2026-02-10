@@ -3,6 +3,30 @@ import pandas as pd
 import joblib
 import pickle
 import base64
+import subprocess
+from datetime import datetime
+
+# --- VERSION INFO ---
+APP_VERSION = "1.2.0"
+
+def get_git_commits(limit=5):
+    try:
+        result = subprocess.run(
+            ['git', 'log', f'-{limit}', '--pretty=format:%h|%s|%ar'],
+            capture_output=True,
+            text=True,
+            cwd='.'
+        )
+        if result.returncode == 0:
+            commits = []
+            for line in result.stdout.strip().split('\n'):
+                if line:
+                    hash, msg, date = line.split('|')
+                    commits.append(f"**{hash}** - {msg} *({date})*")
+            return commits
+        return []
+    except:
+        return []
 
 # --- PAGE CONFIG ---
 st.set_page_config(page_title="BIS", page_icon="😔", layout="wide") #this emoji was mine to i found this off telegram
@@ -89,6 +113,16 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("Need to talk?")
     st.warning("Helpline: 117 | Crisis Text: WhatsApping: 6669 1771")
+    st.markdown("---")
+    with st.expander(" Version Log"):
+        st.markdown(f"**Current Version:** {APP_VERSION}")
+        st.markdown("**Recent Updates:**")
+        commits = get_git_commits(5)
+        if commits:
+            for commit in commits:
+                st.markdown(f"- {commit}")
+        else:
+            st.markdown("*No version history available*")
 
 # --- MAIN UI ---
 st.title("Blue Is Sadness - Student Depression Risk Checker")
