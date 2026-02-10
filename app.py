@@ -101,7 +101,7 @@ with col1:
     st.markdown("##### A student's life is tough, we get it.")
     academic_pressure = st.select_slider("Current Academic Pressure", options=[round(x * 0.1, 1) for x in range(10, 51)], value=3.0, help="1: Relaxed | 5: Overwhelmed")
     study_satisfaction = st.select_slider("Study Satisfaction", options=[round(x * 0.1, 1) for x in range(10, 51)], value=3.0)
-    cgpa_input = st.number_input("Current CGPA (SG Scale)", 0.0, 4.0, 3.0, step=0.01, help="Singapore GPA scale: 0.0 - 4.0")
+    cgpa_input = st.number_input("Current CGPA", 0.0, 4.0, 3.0, step=0.01, help="Singapore GPA scale: 0.0 - 4.0")
     age = st.number_input("Age", 18, 35, 20)
 
 with col2:
