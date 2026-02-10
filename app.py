@@ -101,7 +101,7 @@ with col1:
     st.markdown("##### A student's life is tough, we get it.")
     academic_pressure = st.select_slider("Current Academic Pressure", options=[round(x * 0.1, 1) for x in range(10, 51)], value=3.0, help="1: Relaxed | 5: Overwhelmed")
     study_satisfaction = st.select_slider("Study Satisfaction", options=[round(x * 0.1, 1) for x in range(10, 51)], value=3.0)
-    cgpa = st.number_input("Current CGPA", 0.0, 10.0, 7.5, step=0.1)
+    cgpa_input = st.number_input("Current CGPA (SG Scale)", 0.0, 4.0, 3.0, step=0.01, help="Singapore GPA scale: 0.0 - 4.0")
     age = st.number_input("Age", 18, 35, 20)
 
 with col2:
@@ -118,6 +118,9 @@ with st.expander("Additional Background Info"):
 
 # --- CALCULATION ---
 if st.button("Generate My Risk Profile"):
+    # Convert Singapore GPA (0-4) to model's scale (0-10)
+    cgpa = cgpa_input * 2.5
+    
     # Map data to match model's training features
     data = {
         'Academic Pressure': float(academic_pressure),
